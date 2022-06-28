@@ -1,0 +1,11 @@
+package com.revature.linkedlist;
+
+import com.revature.list.datastructures.Arr
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		List ourLinkedList = new ArrayList();
+	}
+}

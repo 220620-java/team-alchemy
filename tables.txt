@@ -1,0 +1,50 @@
+Tables:
+people:
+   id (pk)
+   username
+   password
+   list of pets (one to many) WHERE pets.peopleid = id;
+pets:
+   id (pk)
+   people id (fk)
+   name
+   age
+   species (many to one) - species id (fk)
+   description
+   list of special needs (many to many)
+   status (many to one) - status id (fk)
+   medicine (many to many)
+   tricks (many to many)
+species:
+   id (pk)
+   general name
+   scientific name
+special needs:
+   id (pk)
+   kind of need
+status:
+   id (pk)
+   status title
+medicines:
+   id (pk)
+   type of medicine
+   description of the medicine
+   dosage
+tricks:
+   id (pk)
+   trick name
+   trick description
+
+JOINING TABLES
+petMedicines
+   id
+   pet id (fk)
+   medicine id (fk)
+petSpecialNeeds
+   id
+   pet id (fk)
+   special needs id (fk)
+petTricks
+   id
+   pet id (fk)
+   trick id (fk)
