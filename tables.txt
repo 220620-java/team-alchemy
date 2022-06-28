@@ -37,14 +37,11 @@ tricks:
 
 JOINING TABLES
 petMedicines
-   id
    pet id (fk)
    medicine id (fk)
 petSpecialNeeds
-   id
    pet id (fk)
    special needs id (fk)
 petTricks
-   id
    pet id (fk)
    trick id (fk)
