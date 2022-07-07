@@ -20,6 +20,8 @@ public class ReflectionActivity {
 	 * 9. What are the values of those annotations' fields on each class field? 
 	 * 10. What annotation(s) does the class itself have, and what are the values of the field(s) on them?
 	 */
+	
+	
 	public static void main(String[] args) {
 		
 		Class<SecretClass> secret = SecretClass.class;
@@ -28,15 +30,12 @@ public class ReflectionActivity {
 		
 		System.out.println(className + "\n");
 		
-		
-		
-		
-		Annotation[] annotations = secret.getAnnotations();
+		//Annotation[] annotations = secret.getAnnotations();
 		
 		
 		int classModifiers = secret.getModifiers();
 		
-		System.out.println(Modifier.isPublic(classModifiers) + "\n");
+		System.out.println("isPublic: " + Modifier.isPublic(classModifiers) + "\n");
 		
 		Method[] classMethods = secret.getMethods();
 		
