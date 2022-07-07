@@ -2,6 +2,7 @@ package com.revature.activity;
 
 import com.revature.exercise.SecretClass;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 
 public class ReflectionActivity {
@@ -20,13 +21,18 @@ public class ReflectionActivity {
 	 * 10. What annotation(s) does the class itself have, and what are the values of the field(s) on them?
 	 */
 	public static void main(String[] args) {
-		//SecretClass secret = new SecretClass();
 		
 		Class<SecretClass> secret = SecretClass.class;
 		
 		String className = secret.getName();
 		
 		System.out.println(className + "\n");
+		
+		
+		
+		
+		Annotation[] annotations = secret.getAnnotations();
+		
 		
 		int classModifiers = secret.getModifiers();
 		
@@ -39,6 +45,7 @@ public class ReflectionActivity {
 			System.out.println("method name: " + method.getName() + "\n");
 			System.out.println("return type: " + method.getReturnType());
 			System.out.println("param count: " + method.getParameterCount());
+			System.out.println();
 			
 			if(method.getParameterCount() > 0) {
 				
@@ -49,21 +56,14 @@ public class ReflectionActivity {
 					System.out.println(parameter.getName());
 					
 				}
-				
+				System.out.println();
+
 			}
 		}
+		 SecretClass secret2 = new SecretClass();
+		 
+		 System.out.println(secret2.getMessage() + "\n" + secret2.getStaticMessage() + "\n\n");
 		
-		
-		
-
-		/*
-		 * secret.getStaticMessage();
-		 *
-		 * secret.getMessage();
-		 * 
-		 *
-		 */
-		//System.out.println(secret.getMessage() + "\n" + secret.getStaticMessage());
 
 		// Hacker Man:
 		// https://i.ytimg.com/vi/GUlWIxrZp9M/maxresdefault.jpg
@@ -72,11 +72,16 @@ public class ReflectionActivity {
 		// https://www.youtube.com/watch?v=agnblS47F18
 	}
 
+	
+	
 	/*
 	 * Example using the class and annotation below:
 	 * 
-	 * 1. the fields are name and number 2. the method is getName 3. name is public,
-	 * number is public/static, getName() is public 4. the method returns the value
+	 * 1. the fields are name and number 
+	 * 2. the method is getName 3. name is public,
+	 * number is public/static, getName() is public 
+	 * 
+	 * 4. the method returns the value
 	 * of the name field 5. the value of name is "Ash", the value of number is 30 6.
 	 * the annotation is Hello 7. the Hello annotation has a "value" field 8. the
 	 * number field uses the Hello annotation 9. the "value" field of Hello is "num"
