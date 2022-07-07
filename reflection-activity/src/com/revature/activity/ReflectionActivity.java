@@ -26,10 +26,11 @@ public class ReflectionActivity {
 		 * 
 		 *
 		 */
-		System.out.println(secret.getMessage() + secret.getStaticMessage());
-		
-		
-		//Rick roll:
+		System.out.println(secret.getMessage() + "\n" + secret.getStaticMessage());
+
+		// Hacker Man:
+		// https://i.ytimg.com/vi/GUlWIxrZp9M/maxresdefault.jpg
+		// Rick roll:
 		// https://www.youtube.com/watch?v=agnblS47F18
 	}
 
