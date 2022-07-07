@@ -7,17 +7,54 @@ import java.lang.reflect.*;
 public class ReflectionActivity {
 
 	/*
-	 * Find all of the following: 1. What fields does the secret class have? 2. What
-	 * methods does the secret class have? 3. What are the modifiers on the fields
-	 * and the methods? 4. What happens when you call each of the methods? 5. What
-	 * are the values of the fields? 6. What annotations are used in the secret
-	 * class? 7. What fields do the annotations have? 8. Which fields in the secret
-	 * class use the annotations? 9. What are the values of those annotations'
-	 * fields on each class field? 10. What annotation(s) does the class itself
-	 * have, and what are the values of the field(s) on them?
+	 * Find all of the following: 
+	 * 1. What fields does the secret class have? 
+	 * 2. What methods does the secret class have? 
+	 * 3. What are the modifiers on the fields and the methods? 
+	 * 4. What happens when you call each of the methods? 
+	 * 5. What are the values of the fields? 
+	 * 6. What annotations are used in the secretclass? 
+	 * 7. What fields do the annotations have? 
+	 * 8. Which fields in the secret class use the annotations? 
+	 * 9. What are the values of those annotations' fields on each class field? 
+	 * 10. What annotation(s) does the class itself have, and what are the values of the field(s) on them?
 	 */
 	public static void main(String[] args) {
-		SecretClass secret = new SecretClass();
+		//SecretClass secret = new SecretClass();
+		
+		Class<SecretClass> secret = SecretClass.class;
+		
+		String className = secret.getName();
+		
+		System.out.println(className + "\n");
+		
+		int classModifiers = secret.getModifiers();
+		
+		System.out.println(Modifier.isPublic(classModifiers) + "\n");
+		
+		Method[] classMethods = secret.getMethods();
+		
+		for(Method method : classMethods) {
+			System.out.println("------------------");
+			System.out.println("method name: " + method.getName() + "\n");
+			System.out.println("return type: " + method.getReturnType());
+			System.out.println("param count: " + method.getParameterCount());
+			
+			if(method.getParameterCount() > 0) {
+				
+				Class[] parameterType = method.getParameterTypes();
+				
+				for(Class parameter : parameterType) {
+					
+					System.out.println(parameter.getName());
+					
+				}
+				
+			}
+		}
+		
+		
+		
 
 		/*
 		 * secret.getStaticMessage();
@@ -26,10 +63,11 @@ public class ReflectionActivity {
 		 * 
 		 *
 		 */
-		System.out.println(secret.getMessage() + "\n" + secret.getStaticMessage());
+		//System.out.println(secret.getMessage() + "\n" + secret.getStaticMessage());
 
 		// Hacker Man:
 		// https://i.ytimg.com/vi/GUlWIxrZp9M/maxresdefault.jpg
+		
 		// Rick roll:
 		// https://www.youtube.com/watch?v=agnblS47F18
 	}
