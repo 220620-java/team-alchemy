@@ -20,179 +20,93 @@ public class ReflectionActivity {
 	 * class itself have, and what are the values of the field(s) on them?
 	 */
 
+	static SecretClass secret = new SecretClass();
+	static Class secretObj = secret.getClass();
+	static Field[] fields = secretObj.getDeclaredFields();
+
+	static Class<SecretClass> secretClass = SecretClass.class;
+	static Class<Red> redClass = Red.class;
+	static Class<Blue> blueClass = Blue.class;
+
+	int modifier = secretObj.getModifiers();
+	String mod = Modifier.toString(modifier);
+
 	public static void main(String[] args) throws Exception {
 
-		Class<Red> red = Red.class;
+		System.out.println("-- Refelections Activity\n");
 
-		String className1 = red.getName();
+		String name = secretObj.getName();
+		System.out.println("Name: " + name);
 
-		Annotation[] test1 = red.getAnnotations();
+		int modifier = secretObj.getModifiers();
 
-		for (Annotation annos : test1) {
-			System.out.println(annos);
-		}
+		String mod = Modifier.toString(modifier);
+		System.out.println("Modifier: " + mod);
 
-		System.out.println(className1 + "\n");
-		Annotation[] annotationsRed = red.getAnnotations();
+		Class superClass = secretObj.getSuperclass();
+		System.out.println("Superclass: " + superClass.getName());
 
-		int classModifiers1 = red.getModifiers();
-
-		System.out.println("isPublic: " + Modifier.isPublic(classModifiers1) + "\n");
-
-		Method[] classMethods1 = red.getMethods();
-
-		for (Method method1 : classMethods1) {
-			System.out.println("-------[RED]-------");
-			System.out.println("method name: " + method1.getName() + "\n");
-			System.out.println("return type: " + method1.getReturnType());
-			System.out.println("param count: " + method1.getParameterCount());
-			System.out.println("test: " + method1.getClass());
-
-			if (method1.getName().equals("pattern")) {
-
-				System.out.println("!!! FOUND PATTERN");
-				method1.setAccessible(true);
-
-			}
-			System.out.println();
-
-			if (method1.getParameterCount() > 0) {
-
-				Class[] parameterType1 = method1.getParameterTypes();
-
-				for (Class parameter1 : parameterType1) {
-
-					System.out.println(parameter1.getName());
-
-				}
-				System.out.println();
-
-			}
-
-		}
-
-		Class<Blue> blue = Blue.class;
-
-		String className11 = blue.getName();
-
-		Annotation[] test11 = blue.getAnnotations();
-
-		for (Annotation annos : test11) {
-			System.out.println(annos);
-		}
-
-		System.out.println(className11 + "\n");
-		Annotation[] annotations1 = blue.getAnnotations();
-
-		int classModifiers11 = blue.getModifiers();
-
-		System.out.println("isPublic: " + Modifier.isPublic(classModifiers11) + "\n");
-
-		Method[] classMethods11 = blue.getMethods();
-
-		for (Method method1 : classMethods11) {
-			System.out.println("-------[BLUE]-----");
-			System.out.println("method name: " + method1.getName() + "\n");
-			System.out.println("return type: " + method1.getReturnType());
-			System.out.println("param count: " + method1.getParameterCount());
-			System.out.println("test: " + method1.getClass());
-
-			if (method1.getName().equals("pattern")) {
-
-				System.out.println("!!! FOUND PATTERN");
-				method1.setAccessible(true);
-
-			}
-			System.out.println();
-
-			if (method1.getParameterCount() > 0) {
-
-				Class[] parameterType1 = method1.getParameterTypes();
-
-				for (Class parameter1 : parameterType1) {
-
-					System.out.println(parameter1.getName());
-
-				}
-				System.out.println();
-
-			}
-
-		}
-
-		Class<SecretClass> secret = SecretClass.class;
-
-		SecretClass secret2 = new SecretClass();
-
-		Class secretObj = secret2.getClass();
-
-		System.out.println(secret2.getMessage() + "\n" + secret2.getStaticMessage() + "\n\n");
-
-		Field[] fields = secretObj.getDeclaredFields();
+		System.out.println("\n\n-- Fields and Annotations\n");
 
 		for (Field field : fields) {
 
-			System.out.println("****************");
 			field.setAccessible(true);
-			System.out.print(" field: " + field.getName() + "\n value:" + field.get(secret2));
+			System.out.print("\n[" + field.getName().toUpperCase() + "] = " + field.get(secret));
+		}
 
-			System.out.println("\n annotations: ");
+		System.out.println("\n");
+
+		for (Field field : fields) {
 			if (field.getAnnotations().length != 0) {
 				Annotation[] annotations = field.getAnnotations();
 				for (Annotation annotation : annotations) {
-					System.out.println(annotation.annotationType().getName());
+					System.out.println(annotation.annotationType().getSimpleName());
+
 				}
 			}
-
-			System.out.println("\n****************\n\n");
-
 		}
 
-		String className = secret.getName();
-
-		Annotation[] test = secret.getAnnotations();
-
+		Annotation[] test = secretClass.getAnnotations();
 		for (Annotation annos : test) {
-			System.out.println(annos);
+			System.out.println(annos.toString());
 		}
 
-		System.out.println(className + "\n");
-		System.out.println(className + "\n");
-		// Annotation[] annotations = secret.getAnnotations();
+		System.out.println("\n[RED CLASS]");
+		Method[] redMethods = redClass.getMethods();
 
-		int classModifiers = secret.getModifiers();
+		for (Method mR : redMethods) {
 
-		System.out.println("isPublic: " + Modifier.isPublic(classModifiers) + "\n");
+			if (mR.getDefaultValue() != null) {
+				System.out.println(mR.getName() + ": " + mR.getDefaultValue());
+			}
+		}
 
-		Method[] classMethods = secret.getMethods();
+		System.out.println("\n[BLUE CLASS]");
+		Method[] blueMethods = blueClass.getMethods();
+
+		for (Method bR : blueMethods) {
+			if (bR.getDefaultValue() != null) {
+				System.out.println(bR.getName() + ": " + bR.getDefaultValue());
+			}
+		}
+
+		System.out.println("\n\n\n-- Secret Class Methods\n\n");
+
+		Method[] classMethods = secretObj.getDeclaredMethods();
 
 		for (Method method : classMethods) {
-			System.out.println("****************");
-			System.out.println("method name: " + method.getName() + "\n");
-			System.out.println("return type: " + method.getReturnType());
-			System.out.println("param count: " + method.getParameterCount());
-			System.out.println("****************");
-
+			System.out.println("[METHOD] = " + method.getName() + "()");
 			if (method.getParameterCount() > 0) {
-
-				Class[] parameterType = method.getParameterTypes();
-
-				for (Class parameter : parameterType) {
-
-					System.out.println(parameter.getName());
-
-				}
-				System.out.println();
-
+				System.out.println("# of Params: " + method.getParameterCount());
 			}
-
+			if (method.getName().equals("getMessage")) {
+				System.out.println("   Output: " + secret.getMessage() + "\n");
+			}
+			if (method.getName().equals("getStaticMessage")) {
+				System.out.println("   Output: " + secret.getStaticMessage() + "\n");
+			}
 		}
 
-		// Hacker Man:
-		// https://i.ytimg.com/vi/GUlWIxrZp9M/maxresdefault.jpg
-
-		// Rick roll:
-		// https://www.youtube.com/watch?v=agnblS47F18
 	}
 
 	/*
