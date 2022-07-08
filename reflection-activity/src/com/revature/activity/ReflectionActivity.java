@@ -6,6 +6,7 @@ import com.revature.exercise.SecretClass;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
+import java.io.*;
 
 public class ReflectionActivity {
 
@@ -22,24 +23,41 @@ public class ReflectionActivity {
 
 	static SecretClass secret = new SecretClass();
 	static Class secretObj = secret.getClass();
-	static Field[] fields = secretObj.getDeclaredFields();
 
 	static Class<SecretClass> secretClass = SecretClass.class;
 	static Class<Red> redClass = Red.class;
 	static Class<Blue> blueClass = Blue.class;
 	static Class superClass = secretObj.getSuperclass();
+
 	static int modifier = secretObj.getModifiers();
 	static String mod = Modifier.toString(modifier), name = secretObj.getName();
+
+	static Field[] fields = secretObj.getDeclaredFields();
 	static Annotation[] testAnno = secretClass.getAnnotations();
 	static Method[] classMethods = secretObj.getDeclaredMethods();
 
+	/*
+	 * 
+	 */
 	public static void main(String[] args) throws Exception {
 
-		/**
-		 * 
-		 */
+		getSecrets();
 
-		System.out.println("\n-- Refelections Activity\n");
+		saveSecrets();
+
+	}
+
+	public static void saveSecrets() throws Exception {
+		PrintStream out = new PrintStream("secrets.txt");
+
+		System.setOut(out);
+		getSecrets();
+		out.close();
+	}
+
+	public static void getSecrets() throws Exception {
+		
+		System.out.println("\n--\n");
 
 		System.out.println("Name: " + name);
 
@@ -51,12 +69,18 @@ public class ReflectionActivity {
 		 * 
 		 */
 
-		System.out.println("\n-- Fields and Annotations");
+		System.out.println("\n-- Fields");
 
 		for (Field field : fields) {
 			field.setAccessible(true);
 			System.out.println("[" + field.getName().toUpperCase() + "] = " + field.get(secret));
 		}
+
+		/**
+		 * 
+		 */
+		
+		System.out.println("\n-- Annotations");
 
 		for (Field field : fields) {
 			Annotation[] annotations = field.getAnnotations();
@@ -68,7 +92,11 @@ public class ReflectionActivity {
 		for (Annotation annos : testAnno) {
 			System.out.println(annos.toString());
 		}
-
+		
+		/**
+		 * 
+		 */
+		
 		System.out.println("\n[RED CLASS]");
 		Method[] redMethods = redClass.getMethods();
 
@@ -94,7 +122,6 @@ public class ReflectionActivity {
 
 		System.out.println("\n-- Secret Class Methods\n");
 
-
 		for (Method method : classMethods) {
 			System.out.println("[METHOD] = " + method.getName() + "()");
 			if (method.getParameterCount() > 0) {
@@ -107,7 +134,6 @@ public class ReflectionActivity {
 				System.out.println("   Output: " + secret.getStaticMessage() + "\n");
 			}
 		}
-
 	}
 
 	/*
