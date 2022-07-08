@@ -33,7 +33,8 @@ public class ReflectionActivity {
 	static String mod = Modifier.toString(modifier), name = secretObj.getName();
 
 	static Field[] fields = secretObj.getDeclaredFields();
-	static Annotation[] testAnno = secretClass.getAnnotations();
+	static Constructor[] constructors = secretObj.getDeclaredConstructors();
+	static Annotation[] annos = secretClass.getDeclaredAnnotations();
 	static Method[] classMethods = secretObj.getDeclaredMethods();
 
 	/*
@@ -56,7 +57,7 @@ public class ReflectionActivity {
 	}
 
 	public static void getSecrets() throws Exception {
-		
+
 		System.out.println("\n--\n");
 
 		System.out.println("Name: " + name);
@@ -69,6 +70,7 @@ public class ReflectionActivity {
 		 * 
 		 */
 
+		//
 		System.out.println("\n-- Fields");
 
 		for (Field field : fields) {
@@ -79,40 +81,74 @@ public class ReflectionActivity {
 		/**
 		 * 
 		 */
-		
+
 		System.out.println("\n-- Annotations");
 
 		for (Field field : fields) {
-			Annotation[] annotations = field.getAnnotations();
+			Annotation[] annotations = field.getDeclaredAnnotations();
 			for (Annotation annotation : annotations) {
 				System.out.println("anno: " + annotation.annotationType().getSimpleName());
 			}
 		}
 
-		for (Annotation annos : testAnno) {
-			System.out.println(annos.toString());
-		}
-		
 		/**
 		 * 
 		 */
-		
+
 		System.out.println("\n[RED CLASS]");
 		Method[] redMethods = redClass.getMethods();
 
 		for (Method mR : redMethods) {
 
 			if (mR.getDefaultValue() != null) {
+				mR.setAccessible(true);
 				System.out.println(mR.getName() + ": " + mR.getDefaultValue());
 			}
+
 		}
 
 		System.out.println("\n[BLUE CLASS]");
 		Method[] blueMethods = blueClass.getMethods();
 
 		for (Method bR : blueMethods) {
+			// Constructor constructor = null;
+			// Object constructor2 = null;
+
+			bR.setAccessible(true);
+
 			if (bR.getDefaultValue() != null) {
 				System.out.println(bR.getName() + ": " + bR.getDefaultValue());
+
+				if (bR.getName().equals("isLight")) {
+					// constructor2 = secretClass.getConstructor(boolean.class).newInstance(true);
+					// constructor = secretClass.getConstructor(new Class[]{SecretClass.class});
+
+				}
+
+				Class[] parameterType = bR.getParameterTypes();
+
+				for (Class parameter : parameterType) {
+					System.out.println(bR.getName() + " -- " + parameter.getName());
+
+				}
+			}
+		}
+		System.out.println("\n[SECRET CLASS]");
+		Method[] secretMethods = secretClass.getMethods();
+
+		for (Method sR : secretMethods) {
+
+			sR.setAccessible(true);
+
+			if (sR.getDefaultValue() != null) {
+				System.out.println(sR.getName() + ": " + sR.getDefaultValue());
+
+				Class[] parameterType = sR.getParameterTypes();
+
+				for (Class parameter : parameterType) {
+					System.out.println(sR.getName() + " -- " + parameter.getName());
+
+				}
 			}
 		}
 
@@ -128,10 +164,10 @@ public class ReflectionActivity {
 				System.out.println("# of Params: " + method.getParameterCount());
 			}
 			if (method.getName().equals("getMessage")) {
-				System.out.println("   Output: " + secret.getMessage() + "\n");
+				System.out.println("   => " + secret.getMessage() + "\n");
 			}
 			if (method.getName().equals("getStaticMessage")) {
-				System.out.println("   Output: " + secret.getStaticMessage() + "\n");
+				System.out.println("   => " + secret.getStaticMessage() + "\n");
 			}
 		}
 	}
