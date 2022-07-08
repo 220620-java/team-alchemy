@@ -27,47 +27,45 @@ public class ReflectionActivity {
 	static Class<SecretClass> secretClass = SecretClass.class;
 	static Class<Red> redClass = Red.class;
 	static Class<Blue> blueClass = Blue.class;
-
-	int modifier = secretObj.getModifiers();
-	String mod = Modifier.toString(modifier);
+	static Class superClass = secretObj.getSuperclass();
+	static int modifier = secretObj.getModifiers();
+	static String mod = Modifier.toString(modifier), name = secretObj.getName();
+	static Annotation[] testAnno = secretClass.getAnnotations();
+	static Method[] classMethods = secretObj.getDeclaredMethods();
 
 	public static void main(String[] args) throws Exception {
 
-		System.out.println("-- Refelections Activity\n");
+		/**
+		 * 
+		 */
 
-		String name = secretObj.getName();
+		System.out.println("\n-- Refelections Activity\n");
+
 		System.out.println("Name: " + name);
 
-		int modifier = secretObj.getModifiers();
-
-		String mod = Modifier.toString(modifier);
 		System.out.println("Modifier: " + mod);
 
-		Class superClass = secretObj.getSuperclass();
 		System.out.println("Superclass: " + superClass.getName());
 
-		System.out.println("\n\n-- Fields and Annotations\n");
+		/**
+		 * 
+		 */
+
+		System.out.println("\n-- Fields and Annotations");
 
 		for (Field field : fields) {
-
 			field.setAccessible(true);
-			System.out.print("\n[" + field.getName().toUpperCase() + "] = " + field.get(secret));
+			System.out.println("[" + field.getName().toUpperCase() + "] = " + field.get(secret));
 		}
 
-		System.out.println("\n");
-
 		for (Field field : fields) {
-			if (field.getAnnotations().length != 0) {
-				Annotation[] annotations = field.getAnnotations();
-				for (Annotation annotation : annotations) {
-					System.out.println(annotation.annotationType().getSimpleName());
-
-				}
+			Annotation[] annotations = field.getAnnotations();
+			for (Annotation annotation : annotations) {
+				System.out.println("anno: " + annotation.annotationType().getSimpleName());
 			}
 		}
 
-		Annotation[] test = secretClass.getAnnotations();
-		for (Annotation annos : test) {
+		for (Annotation annos : testAnno) {
 			System.out.println(annos.toString());
 		}
 
@@ -90,9 +88,12 @@ public class ReflectionActivity {
 			}
 		}
 
-		System.out.println("\n\n\n-- Secret Class Methods\n\n");
+		/*
+		 * 
+		 */
 
-		Method[] classMethods = secretObj.getDeclaredMethods();
+		System.out.println("\n-- Secret Class Methods\n");
+
 
 		for (Method method : classMethods) {
 			System.out.println("[METHOD] = " + method.getName() + "()");
