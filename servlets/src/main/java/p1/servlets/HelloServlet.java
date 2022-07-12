@@ -25,9 +25,17 @@ public class HelloServlet extends HttpServlet {
 		//if slash
 		if(uriString.indexOf("/") != 1){
 			uriString.replace(0, uriString.indexOf("/"), "");
+
+			String path = uriString.toString();
 			
-			PrintWriter writer = resp.getWriter();
-			writer.write("Path: " + uriString.toString());
+			if(path.equals("/html")) {
+				PrintWriter writer = resp.getWriter();
+				writer.write(html);
+			}else {
+				PrintWriter writer = resp.getWriter();
+				writer.write("Path: " + path);
+			}
+			
 		} else {
 			
 			PrintWriter writer = resp.getWriter();
@@ -60,5 +68,29 @@ public class HelloServlet extends HttpServlet {
 
 		writer.write(chosenLang + reqBody + "! :)");
 	}
-
+	
+	
+	
+	static String html =
+			"<html>"
+			+ "<head>"
+			+ "<title>AHHH</title>"
+			+ "<style>"
+			+ "body{"
+			+ "background-color: #96bf9e;"
+			+ "}"
+			+ "</style>"
+			+ "</head>"
+			+ "<body>"
+			+ "<table width=\"960\" cellpadding=\"12\" cellsapcing=\"5\" border=\"1\" align=\"center\">"
+					+ "<tr>"
+					+ "<td bgcolor=\"#96a6bf\" colspan=\"2\" align=\"center\">"
+					+ "<h1>HTML <font color=\"blue\">Test</font></h1></td></tr>"
+					+ "<tr>"
+					+ "<td bgcolor=\"#bfb096\" width=\"25%\"><h4>Hello</4></td>"
+					+ "<td bgcolor=\"#2196f3\" width=\"75%\"><b>Test test test</b></td>"
+					+ "</tr>"
+					+ "</table>"
+					+ "</body>"
+					+ "</html>";
 }
